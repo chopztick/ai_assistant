@@ -7,9 +7,9 @@ __pycache__/
 chat_venv/
 
 # Environment variables
-*.env.dev/
-*.env.stage/
-*.env.prod/
+*.env.dev
+*.env.stage
+*.env.prod
 
 
 # IDEs
