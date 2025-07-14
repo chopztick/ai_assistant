@@ -9,5 +9,5 @@ class ChatServiceInterface(ABC):
         pass
 
     @abstractmethod
-    async def process_message(self, messages: ChatMessageCreate) -> AsyncGenerator[bytes, None]:
+    def process_message(self, message: ChatMessageCreate) -> AsyncGenerator[bytes, None]:
         pass

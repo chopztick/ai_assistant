@@ -69,7 +69,7 @@ class ChatService(ChatServiceInterface):
                 agent_message_history.extend(ModelMessagesTypeAdapter.validate_json(item.content))
 
         # Stream the response from the LLM agent
-        async for chunk in self.llm_agent.send_message(message.user_request, agent_message_history):
+        async for chunk in await self.llm_agent.send_message(message.user_request, agent_message_history):
             yield chunk
        
         # Get the complete generated response from the LLM agent
