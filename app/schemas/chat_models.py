@@ -7,8 +7,8 @@ class ChatMessageResponse(BaseModel):
     """
     Represents a chat message in the conversation.
     """
-    type: Literal['meta', 'done', 'content']
-    role: Literal['user', 'ai_assistant']
+    type: Literal['meta', 'done', 'content', 'tool_call', 'tool_return', 'extra_forbidden', 'system_prompt']
+    role: Literal['user', 'ai_assistant', 'system']
     timestamp: datetime
     content: str
 
@@ -18,7 +18,7 @@ class ConversationHistoryResponse(BaseModel):
     Represents the conversation history.
     """
     conversation_id: int
-    messages: List[ChatMessageResponse]
+    messages: List[ChatMessageResponse] | None
 
 
 class ChatMessageCreate(BaseModel):

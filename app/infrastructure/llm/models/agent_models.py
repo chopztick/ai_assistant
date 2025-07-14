@@ -6,4 +6,4 @@ class Deps:
     """
     Dependency class for the agent.
     """
-    user_repo: UsersRepository = None
+    user_repo: UsersRepository

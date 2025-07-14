@@ -38,7 +38,10 @@ class ChatService(ChatServiceInterface):
         for item in message_history:
             agent_message_history.extend(ModelMessagesTypeAdapter.validate_json(item.content))
 
-        model_msg_list: list[ChatMessageResponse] = [form_chat_message(msg) for msg in agent_message_history]
+        model_msg_list: list[ChatMessageResponse] = [
+            msg for m in agent_message_history
+            if (msg := form_chat_message(m)) is not None
+        ]
 
         return ConversationHistoryResponse(
             conversation_id=conversation_id,
@@ -69,7 +72,7 @@ class ChatService(ChatServiceInterface):
                 agent_message_history.extend(ModelMessagesTypeAdapter.validate_json(item.content))
 
         # Stream the response from the LLM agent
-        async for chunk in await self.llm_agent.send_message(message.user_request, agent_message_history):
+        async for chunk in self.llm_agent.send_message(message.user_request, agent_message_history):
             yield chunk
        
         # Get the complete generated response from the LLM agent

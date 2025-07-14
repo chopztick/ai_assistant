@@ -8,7 +8,7 @@ class LlmInterface(ABC):
     """
 
     @abstractmethod
-    async def send_message(self, message: str, history: list[ModelMessage]) -> AsyncGenerator[bytes, None]:
+    def send_message(self, message: str, history: list[ModelMessage]) -> AsyncGenerator[bytes, None]:
         pass
 
     @abstractmethod

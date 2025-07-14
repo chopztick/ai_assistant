@@ -8,15 +8,15 @@ from pydantic_ai.models.anthropic import AnthropicModel
 from pydantic_ai.providers.anthropic import AnthropicProvider
 from app.infrastructure.llm.models.agent_models import Deps
 
-# from app.infrastructure.llm.agent_tools import get_current_time, get_current_time_in_timezone, get_user_info
+from app.infrastructure.llm.agent_tools import get_current_time, get_current_time_in_timezone, get_user_info
 
 settings = get_settings()
 
-async def get_chat_agent() -> Agent[Deps, str]:
+async def get_chat_agent() -> Agent[Deps]:
     """
     Dependency to get a LLM agent
     """
-    system_prompt="""
+    instruction ="""
         You are a helpful assistant.
         You can answer questions, provide information, and assist with various tasks.
         Use the user information to personalize your responses.
@@ -32,12 +32,12 @@ async def get_chat_agent() -> Agent[Deps, str]:
         raise ValueError(f"Unsupported LLM provider: {settings.llm_provider}. Supported: openai, mistral, anthropic")
 
 
-    chat_agent = Agent(model=model, system_prompt=system_prompt, deps_type=Deps)
+    chat_agent = Agent(model=model, instructions=instruction, deps_type=Deps)
 
     # Register tools for the agent
-    # chat_agent.tool_plain(get_current_time)
-    # chat_agent.tool_plain(get_current_time_in_timezone)
-    # chat_agent.tool(get_user_info)
+    chat_agent.tool_plain(get_current_time)
+    chat_agent.tool_plain(get_current_time_in_timezone)
+    chat_agent.tool(get_user_info)
 
     return chat_agent
 

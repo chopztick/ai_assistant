@@ -12,7 +12,7 @@ class LlmRepository(LlmInterface):
     Repository for managing LLM messages.
     """
 
-    def __init__(self, llm_agent: Agent, deps: Deps):
+    def __init__(self, llm_agent: Agent[Deps], deps: Deps):
         """
         Initialize the LLMMessagesRepo with an LLM agent.
 
@@ -47,13 +47,15 @@ class LlmRepository(LlmInterface):
 
 
         # Streams the response from the LLM agent
-        async with self.agent.run_stream(user_prompt=message, message_history=history) as response:
+        async with self.agent.run_stream(user_prompt=message, message_history=history, deps=self.deps) as response:
             # Run the async generator to get the response
             async for text in response.stream(debounce_by=0.5):
                 # Construct the ModelResponse object
                 msg = ModelResponse(parts=[TextPart(content=text)], timestamp=response.timestamp())
                 # Yield the response message
-                yield form_chat_message(msg).model_dump_json().encode('utf-8') + b'\n'
+                chat_msg = form_chat_message(msg)
+                if chat_msg is not None:
+                    yield chat_msg.model_dump_json().encode('utf-8') + b'\n'
 
             # Save the complete generated response to be saved into the database
             self.message_to_save = response.new_messages_json()

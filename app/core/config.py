@@ -21,7 +21,7 @@ class Settings(BaseSettings):
     database_port: int = 5432
     database_name: str = "postgres"
     vector_db_url: str = "https://your-qdrant-url"
-    vector_db_api_key: str = None
+    vector_db_api_key: str | None = None
 
     model_config = SettingsConfigDict(
         env_file= f".env.{env_name}",
