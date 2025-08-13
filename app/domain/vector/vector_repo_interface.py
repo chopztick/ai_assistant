@@ -18,7 +18,7 @@ class VectorDatabaseInterface(ABC):
         pass
 
     @abstractmethod
-    async def vector_search(self, vector_id: str) -> dict:
+    async def vector_search(self, query_vector: list[float]) -> dict:
         """
         Retrieve a vector from the database by its ID.
 

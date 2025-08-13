@@ -22,7 +22,7 @@ class VectorDbRepository(VectorDatabaseInterface):
         """
         # Upsert the vector with metadata into the "documents" collection
         await self.vector_db_client.upsert(
-            collection_name="documents",
+            collection_name="documents", # TODO: Make collection name configurable
             points=[
                 PointStruct(
                     id=str(metadata.id),
@@ -47,7 +47,7 @@ class VectorDbRepository(VectorDatabaseInterface):
 
         return str(metadata.id)
 
-    async def vector_search(self, vector_id: str) -> dict:
+    async def vector_search(self, query_vector: list[float]) -> dict:
         raise NotImplementedError
 
     async def delete_vector(self, vector_id: str) -> bool:
