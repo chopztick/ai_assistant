@@ -9,7 +9,7 @@ settings = get_settings()
 client_url = settings.vector_db_url
 client_api_key = settings.vector_db_api_key
 
-async def get_qdrant_client() -> AsyncQdrantClient:
+async def get_vector_database_client() -> AsyncQdrantClient:
     """
     Dependency to get a Qdrant client for the vector database
     """

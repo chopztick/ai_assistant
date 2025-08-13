@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from app.infrastructure.vector_db.models.vector_db_models import Metadata
 
 class VectorDatabaseInterface(ABC):
     """
@@ -7,7 +7,7 @@ class VectorDatabaseInterface(ABC):
     """
 
     @abstractmethod
-    async def add_vector(self, vector: list, metadata: dict) -> str:
+    async def add_vector(self, vector: list[float], metadata: Metadata) -> str:
         """
         Add a vector to the database.
 
